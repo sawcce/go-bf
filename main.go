@@ -8,6 +8,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"time"
 )
 
 var data []uint8
@@ -16,6 +17,7 @@ var i int
 var msg string
 
 func main() {
+	s := time.Now().Unix()
 	args := os.Args
 	dir := args[1]
 	wd, err := os.Getwd()
@@ -35,6 +37,10 @@ func main() {
 	msg = ""
 	interpret(code)
 	fmt.Println(msg)
+	gray := "\033[1;30m%s\033[0m"
+	tt := time.Now().Unix() - s
+	str := fmt.Sprint(tt) + " ms"
+	fmt.Printf(gray, str)
 }
 
 func interpret(code string) {
