@@ -59,18 +59,16 @@ func interpret(code string) {
 			break
 		case "[":
 			fclosure := ""
-
-			lc := 0
-			rc := 0
+			cc := 0
 			tr := true
 			for tr == true {
 
 				switch string(token) {
 				case "[":
-					lc += 1
+					cc += 1
 				case "]":
-					rc += 1
-					if lc == rc {
+					cc -= 1
+					if cc == 0 {
 						idx--
 						tr = false
 					}
