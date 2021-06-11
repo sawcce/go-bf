@@ -3,7 +3,10 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"io/ioutil"
+	"log"
 	"os"
+	"path/filepath"
 	"strings"
 )
 
@@ -13,11 +16,22 @@ var i int
 var msg string
 
 func main() {
-	fmt.Println("Starting Parsing")
+	args := os.Args
+	dir := args[1]
+	wd, err := os.Getwd()
+	if err != nil {
+		log.Fatal(err)
+	}
+	fp := filepath.Join(wd, dir)
+
+	body, err := ioutil.ReadFile(fp)
+	if err != nil {
+		log.Fatalf("unable to read file: %v", err)
+	}
 
 	i = 0
 	data = []uint8{0, 0, 0, 0, 0, 0, 0, 0, 0}
-	code := "-[--->+<]>-.[---->+++++<]>-.+.++++++++++.+[---->+<]>+++.-[--->++<]>-.++++++++++.+[---->+<]>+++.[-->+++++++<]>.++.-------------.[--->+<]>---..+++++.-[---->+<]>++.+[->+++<]>.++++++++++++..---.[-->+<]>--------."
+	code := string(body)
 	msg = ""
 	interpret(code)
 	fmt.Println(msg)
